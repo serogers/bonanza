@@ -87,10 +87,7 @@ module Bonanza
 
     def self.format_author(pr)
       author = pr["author"]["login"]
-
-      return author # TODO support colors from yaml
-
-      color  = AUTHOR_COLORS[author]
+      color  = Bonanza::CONFIG["author_colors"].to_h[author]
       color ? colorize(author, color: color) : author
     end
 
@@ -105,12 +102,12 @@ module Bonanza
     end
 
     def self.format_labels(pr)
-      overrides = { "compliance" => :green, "RFC" => :pink, "stale" => :red }
+      label_colors = Bonanza::CONFIG["label_colors"].to_h
 
       pr["labels"].sort_by do |label|
         label["name"]
       end.map do |label|
-        colorize(label["name"], color: overrides[label["name"]] || label["color"])
+        colorize(label["name"], color: label_colors[label["name"]] || label["color"])
       end.first(3).join(", ")
     end
 

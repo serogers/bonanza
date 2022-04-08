@@ -28,10 +28,14 @@ search_limit: 20 # default
 
 # Optionally colorize authors
 author_colors:
-  - [GH Handle]: green
-  - [GH Handle]: blue
-  - [GH Handle]: "#e6e1dc"
+  [GH Handle]: green
+  [GH Handle]: blue
+  [GH Handle]: "#e6e1dc"
 
+# Optionally override label colors
+label_colors:
+  critical: red
+  stale: gray
 ```
 
 ## Running Bonanza
