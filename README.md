@@ -54,7 +54,7 @@ Each "search" generates a new section. Currently there are two default searches 
 
 This is used to signify whether a pull request needs your attention. For example, once you've reviewed a pull request, it's "Done".
 
-**What do the colors in "Last Updated" mean?
+**What do the colors in "Last Updated" mean?**
 
 - Within the hour: Green
 - Within a day:    Yellow
@@ -63,7 +63,7 @@ This is used to signify whether a pull request needs your attention. For example
 
 **Is this production ready?**
 
-This is a script created based on a personal need. Use at your own risk!
+Ha! This little utility was created to fulfill an immediate a personal need. As such comments and tests are limited. Use at your own risk!
 
 **I've got an idea, how to contribute?**
 
