@@ -8,7 +8,7 @@ require "terminal-table"
 require "time"
 require "yaml"
 
-require_relative "bonanza/list"
+require_relative "bonanza/dashboard"
 require_relative "bonanza/formatter"
 
 module Bonanza
@@ -19,4 +19,4 @@ module Bonanza
 end
 
 
-Bonanza::List.new.render
+Bonanza::Dashboard.new.render

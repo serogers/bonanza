@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Bonanza
-  class List
+  class Dashboard
 
     COLUMNS = [
       { title: "Done", field: "done", computed: true },
@@ -22,8 +22,9 @@ module Bonanza
     def initialize
       validate_config
 
-      @gh_handle = Bonanza::CONFIG["gh_handle"]
-      @searches  = (base_searches + Bonanza::CONFIG["searches"].to_a).uniq
+      @gh_handle     = Bonanza::CONFIG["gh_handle"]
+      @searches      = (base_searches + Bonanza::CONFIG["searches"].to_a).uniq
+      @search_limit  = Bonanza::CONFIG["limit"] || 20
     end
 
     def render
@@ -67,7 +68,7 @@ module Bonanza
 
     def find_prs_by(search)
       fields = COLUMNS.reject { |c| c[:computed] }.map { |c| c[:field] }.compact.join(",")
-      base = "PAGER=cat gh pr list --state open --limit 50 --json #{fields}"
+      base = "PAGER=cat gh pr list --state open --limit #{@search_limit} --json #{fields}"
       cmd = "#{base} #{search}"
       JSON.parse(run_cmd(cmd))
     end
@@ -85,7 +86,7 @@ module Bonanza
       end
 
       repo_loc = "~#{Dir.pwd.sub(Dir::home, "")}"
-      table_title = "Pull requests for #{@gh_handle} (#{repo_loc})"
+      table_title = "Bonanza! --- Pull requests for #{@gh_handle} (#{repo_loc})"
       table = Terminal::Table.new(title: table_title, rows: rows, headings: columns_to_show.map { |c| c[:title] })
       puts table
     end
