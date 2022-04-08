@@ -1,2 +1,3 @@
-# pr_bonanza
-Get productive with Github's pull request list
+# PR Bonanza 🎊
+
+Get productive with Github's pull request list!
