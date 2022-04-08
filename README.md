@@ -63,7 +63,7 @@ This is used to signify whether a pull request needs your attention. For example
 
 **Is this production ready?**
 
-Ha! This little utility was created to fulfill an immediate a personal need. As such comments and tests are limited. Use at your own risk!
+Ha! This little utility was created to fulfill an immediate personal need. As such comments and tests are limited. Use at your own risk!
 
 **I've got an idea, how to contribute?**
 
