@@ -65,6 +65,9 @@ This is used to signify whether a pull request needs your attention. For example
 
 Ha! This little utility was created to fulfill an immediate personal need. As such comments and tests are limited. Use at your own risk!
 
+**What's next?**
+There's much that could be added, but it'll be dictated by demand and time. Perhaps some more options, add a CLI, make it a rubygem, who knows!
+
 **I've got an idea, how to contribute?**
 
-Open a pull request or issue!
+Open a pull request or issue! Or fork and go crazy.
