@@ -2,7 +2,7 @@
 
 Get productive with Github's pull request list! Github has [some handy search filters](https://docs.github.com/en/issues/tracking-your-work-with-issues/filtering-and-searching-issues-and-pull-requests) for their Pull Request list, but sometimes you need more flexibility. For example, Github's search does not allow for `OR` operations, only `AND`. If you want to see several searches in one dashboard, you've come to the right place!
 
-![Bonanza Example](example.png)
+![Bonanza Example](example.jpg)
 
 ## Installation
 
@@ -10,7 +10,7 @@ Get productive with Github's pull request list! Github has [some handy search fi
 2. Clone this prepository to somwhere comfy
 3. Install script dependencies: `bundle install`
 4. Create a `.bonanza_conf.yml` file in each repo you want to render a dashboard (see format below)
-5. Add `.bonanza_conf.yml` to your `gitignore_global` file, or to each repo 
+5. Add `.bonanza_conf.yml` to your `gitignore_global` file, or to each repo
 6. Add a shell alias for quick execution: `alias bonanza="ruby PATH_TO_REPO/bonanza/lib/bonanza.rb`
 
 ## Configuration
