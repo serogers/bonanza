@@ -73,10 +73,12 @@ module Bonanza
 
       @pr_groups.each_with_index do |prs, index|
         rows << :separator unless index.zero?
-        search_row = Array.new(columns.size)
-        search_row[1] = "=> Search: ".white + @searches[index].greenish
-        rows << search_row
+        rows << Array.new(columns.size).tap {|arr| arr[1] = "=> Search: ".white + @searches[index].greenish}
         rows << :separator
+
+        if prs.size.zero?
+          rows << Array.new(columns.size).tap {|arr| arr[1] = "No Results"}
+        end
 
         prs.each do |pr|
           unless prs_added.include?(pr["number"])

@@ -9,13 +9,15 @@ Get productive with Github's pull request list! Github has [some handy search fi
 1. Install the [Github CLI](https://cli.github.com) and login to your account
 2. Clone this prepository to somwhere comfy
 3. Install script dependencies: `bundle install`
-4. Create a `.bonanza_conf.yml` file in each repo you want to render a dashboard (see format below)
-5. Add `.bonanza_conf.yml` to your `gitignore_global` file, or to each repo
+4. Create a `.bonanza.yml` file in each repo you want to render a dashboard (see format below)
+5. Add `.bonanza.yml` to your `gitignore_global` file, or to each repo
 6. Add a shell alias for quick execution: `alias bonanza="ruby PATH_TO_REPO/bonanza/lib/bonanza.rb`
 
 ## Configuration
 
 ```yml
+# Place in project directory: .bonanza.yml
+
 gh_handle: [Your GH Handle]
 
 # Search queries sent to Github CLI (two included by default, see FAQ)

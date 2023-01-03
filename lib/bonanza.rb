@@ -14,7 +14,7 @@ require_relative "bonanza/formatter"
 module Bonanza
   class Error < StandardError; end
 
-  CONFIG_PATH = File.join(Dir.pwd, ".bonanza_conf.yml")
+  CONFIG_PATH = File.join(Dir.pwd, ".bonanza.yml")
   CONFIG      = YAML.load_file(CONFIG_PATH)
 end
 
