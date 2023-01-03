@@ -46,24 +46,17 @@ module Bonanza
     end
 
     def fetch_prs
-      search_groups = []
-      @prs = Set.new
-      @separators_at = []
-
+      @pr_groups = []
       threads = []
+
       @searches.each.with_index do |search, index|
         threads << Thread.new do
-          search_groups[index] = find_prs_by(search).map do |pr|
+          @pr_groups[index] = find_prs_by(search).map do |pr|
             Bonanza::Formatter.format(pr)
           end.sort_by { |pr| pr["priority"] }
         end
       end
       threads.each(&:join)
-
-      search_groups.each.with_index do |group, index|
-        @prs.merge(group)
-        @separators_at << @prs.size - 1 unless (index == search_groups.size - 1)
-      end
     end
 
     def find_prs_by(search)
@@ -74,20 +67,28 @@ module Bonanza
     end
 
     def print_table
-      columns_to_show = COLUMNS.reject { |c| c[:hidden] }
-
+      columns = COLUMNS.reject { |c| c[:hidden] }
       rows = []
-      @prs.each.with_index do |pr, index|
-        rows << pr.slice(*columns_to_show.map { |c| c[:field] }).values
+      prs_added = Set.new
 
-        if @separators_at.include?(index)
-          rows << :separator
+      @pr_groups.each_with_index do |prs, index|
+        rows << :separator unless index.zero?
+        search_row = Array.new(columns.size)
+        search_row[1] = "=> Search: ".white + @searches[index].greenish
+        rows << search_row
+        rows << :separator
+
+        prs.each do |pr|
+          unless prs_added.include?(pr["number"])
+            rows << pr.slice(*columns.map { |c| c[:field] }).values
+            prs_added << pr["number"]
+          end
         end
       end
 
       repo_loc = "~#{Dir.pwd.sub(Dir::home, "")}"
-      table_title = "Bonanza! --- Pull requests for #{@gh_handle} (#{repo_loc})"
-      table = Terminal::Table.new(title: table_title, rows: rows, headings: columns_to_show.map { |c| c[:title] })
+      table_title = "Bonanza! --- Pull requests for #{@gh_handle} (#{repo_loc})".white
+      table = Terminal::Table.new(title: table_title, rows: rows, headings: columns.map { |c| c[:title] })
       puts table
     end
 
