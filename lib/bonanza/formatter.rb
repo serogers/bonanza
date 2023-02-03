@@ -48,7 +48,7 @@ module Bonanza
     end
 
     def self.get_my_review_status(pr)
-      pr["latestReviews"].to_a.find { |r| r["author"]["login"] == Bonanza::CONFIG["gh_handle"] }.to_h["state"]
+      pr["latestReviews"].to_a.find { |r| r["author"]["login"].split("/").last == Bonanza::CONFIG["gh_handle"] }.to_h["state"]
     end
 
     def self.format_priority(pr)
