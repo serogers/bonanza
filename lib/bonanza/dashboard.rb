@@ -19,12 +19,14 @@ module Bonanza
       # { title: "Branch", field: "headRefName" }
     ].freeze
 
-    def initialize
-      validate_config
+    def self.render
+      new.render
+    end
 
-      @gh_handle     = Bonanza::CONFIG["gh_handle"]
-      @searches      = (base_searches + Bonanza::CONFIG["searches"].to_a).uniq
-      @search_limit  = Bonanza::CONFIG["limit"] || 20
+    def initialize
+      @gh_handle     = Bonanza.config["gh_handle"]
+      @searches      = (base_searches + Bonanza.config["searches"].to_a).uniq
+      @search_limit  = Bonanza.config["limit"] || 20
     end
 
     def render
@@ -33,10 +35,6 @@ module Bonanza
     end
 
     private
-
-    def validate_config
-      raise Error, "Config: Must supply gh_handle" if Bonanza::CONFIG["gh_handle"].empty?
-    end
 
     def base_searches
       [
@@ -88,14 +86,13 @@ module Bonanza
         end
       end
 
-      repo_loc = "~#{Dir.pwd.sub(Dir::home, "")}"
-      table_title = "Bonanza! --- Pull requests for #{@gh_handle} (#{repo_loc})".white
+      table_title = "Bonanza! --- Pull requests for #{@gh_handle} (#{Bonanza.repo_path})".white
       table = Terminal::Table.new(title: table_title, rows: rows, headings: columns.map { |c| c[:title] })
       puts table
     end
 
     def run_cmd(cmd)
-      `#{cmd}`
+      `cd #{Bonanza.repo_path}; #{cmd}`
     end
 
   end
