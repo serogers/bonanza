@@ -1,0 +1,15 @@
+# full or compact
+display_mode: full
+
+# Your github username
+gh_handle:
+
+# Example:
+# - --label general
+searches:
+
+search_limit: 20
+
+# Example:
+# - gitub_user: green
+author_colors:

@@ -48,7 +48,7 @@ module Bonanza
     end
 
     def self.get_my_review_status(pr)
-      pr["latestReviews"].to_a.find { |r| r["author"]["login"] == Bonanza.config["gh_handle"] }.to_h["state"]
+      pr["latestReviews"].to_a.find { |r| r["author"]["login"] == Bonanza.config.gh_handle }.to_h["state"]
     end
 
     def self.format_priority(pr)
@@ -87,13 +87,13 @@ module Bonanza
 
     def self.format_author(pr)
       author = pr["author"]["login"]
-      color  = Bonanza.config["author_colors"].to_h[author]
+      color  = Bonanza.config.author_colors.to_h[author]
       color ? colorize(author, color: color) : author
     end
 
     def self.format_assignees(pr)
       pr["assignees"].map do |assignee|
-        if (name = assignee["login"]) == Bonanza.config["gh_handle"]
+        if (name = assignee["login"]) == Bonanza.config.gh_handle
           colorize(name, color: :blue)
         else
           name
@@ -102,7 +102,7 @@ module Bonanza
     end
 
     def self.format_labels(pr)
-      label_colors = Bonanza.config["label_colors"].to_h
+      label_colors = Bonanza.config.label_colors.to_h
 
       pr["labels"].sort_by do |label|
         label["name"]
