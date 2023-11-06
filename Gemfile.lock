@@ -9,6 +9,7 @@ GEM
 
 PLATFORMS
   x86_64-darwin-20
+  x86_64-darwin-22
 
 DEPENDENCIES
   amazing_print (~> 1.4)

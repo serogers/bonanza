@@ -11,7 +11,7 @@ Get productive with Github's pull request list! Github has [some handy search fi
 3. Install script dependencies: `bundle install`
 4. Create a `.bonanza.yml` file in each repo you want to render a dashboard (see format below)
 5. Add `.bonanza.yml` to your `gitignore_global` file, or to each repo
-6. Add a shell alias for quick execution: `alias bonanza="ruby PATH_TO_REPO/bonanza/lib/bonanza.rb`
+6. Add the bonanza executable to your shell path: `PATH=$PATH:PATH_TO_REPO/bonanza/bin/bonanza`
 
 ## Configuration
 
