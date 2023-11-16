@@ -93,7 +93,9 @@ module Bonanza
 
       @pr_groups.each_with_index do |prs, index|
         rows << :separator unless index.zero?
-        rows << Array.new(display_columns.size).tap {|arr| arr[1] = "=> Search: ".white + @searches[index].greenish}
+        rows << Array.new(display_columns.size).tap do |arr|
+          arr[1] = Bonanza::Formatter.colorize("=> Search: ", color: :white) + Bonanza::Formatter.colorize(@searches[index], color: :greenish)
+        end
         rows << :separator
 
         if prs.size.zero?
@@ -108,7 +110,7 @@ module Bonanza
         end
       end
 
-      table_title = "Bonanza! --- Pull requests for #{@gh_handle} (#{Bonanza.repo_path})".white
+      table_title = Bonanza::Formatter.colorize("Bonanza! --- Pull requests for #{@gh_handle} (#{Bonanza.repo_path})", color: :white)
       table = Terminal::Table.new(title: table_title, rows: rows, headings: display_columns.map { |c| c[:title] })
       puts table
     end

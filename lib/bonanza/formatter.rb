@@ -82,7 +82,7 @@ module Bonanza
     end
 
     def self.format_title(pr)
-      "PR #{pr['number']}: ".blue + truncate(pr["title"], 55)
+      colorize("PR #{pr['number']}: ", color: :blue) + truncate(pr["title"], 55)
     end
 
     def self.format_author(pr)
@@ -140,7 +140,7 @@ module Bonanza
 
       # Default to amazing_print colors, otherwise use Paint
       # https://en.wikipedia.org/wiki/X11_color_names#Color_name_chart
-      value.respond_to?(color) ? value.public_send(color) : Paint[value, color.to_s, :bright]
+      AmazingPrint::Colors.respond_to?(color) ? AmazingPrint::Colors.public_send(color, value) : Paint[value, color.to_s, :bright]
     end
 
     def self.truncate(value, length)
