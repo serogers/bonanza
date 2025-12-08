@@ -1,5 +1,6 @@
 source "https://rubygems.org"
 
-gem "amazing_print", "~> 1.4"
-gem "paint", "~> 2.2", ">= 2.2.1"
-gem "terminal-table", "~> 3.0", ">= 3.0.2"
+gem "amazing_print", "~> 2.0"
+gem "logger", "~> 1.7"
+gem "paint", "~> 2.3"
+gem "terminal-table", "~> 4.0"
