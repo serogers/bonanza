@@ -60,7 +60,7 @@ This is used to signify whether a pull request needs your attention. For example
 
 - Within the hour: Green
 - Within a day:    Yellow
-- Withing 3 days:  Orange
+- Within 3 days:   Orange
 - Anything older:  Red
 
 **Is this production ready?**

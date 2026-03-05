@@ -4,4 +4,4 @@ bonanza_exec="$(dirname "$(realpath "$0")")"
 bonanza_dir="$bonanza_exec/../"
 repo_dir=$PWD
 
-zsh -i -c "cd $bonanza_dir && ruby ./lib/bonanza.rb $repo_dir '$@'"
+zsh -c "cd $bonanza_dir && ruby ./lib/bonanza.rb $repo_dir '$@'"
