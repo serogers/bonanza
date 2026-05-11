@@ -38,8 +38,8 @@ class FormatterTest < Minitest::Test
 
   # --- get_my_review_status -------------------------------------------------
 
-  def test_get_my_review_status_returns_nil_with_no_reviews
-    assert_nil Bonanza::Formatter.get_my_review_status(pr_fixture(101))
+  def test_get_my_review_status_returns_empty_with_no_reviews
+    assert_equal "", Bonanza::Formatter.get_my_review_status(pr_fixture(101))
   end
 
   def test_get_my_review_status_returns_state_when_user_has_reviewed
@@ -48,7 +48,29 @@ class FormatterTest < Minitest::Test
   end
 
   def test_get_my_review_status_ignores_reviews_from_other_users
-    assert_nil Bonanza::Formatter.get_my_review_status(pr_fixture(103))
+    assert_equal "", Bonanza::Formatter.get_my_review_status(pr_fixture(103))
+  end
+
+  def test_get_my_review_status_is_required_when_my_team_is_a_pending_reviewer
+    Bonanza.my_teams = Set.new(["example/team-monet"])
+    assert_equal "REQUIRED", Bonanza::Formatter.get_my_review_status(pr_fixture(107))
+  end
+
+  def test_get_my_review_status_is_empty_when_only_other_teams_are_pending_reviewers
+    Bonanza.my_teams = Set.new(["example/team-monet"])
+    assert_equal "", Bonanza::Formatter.get_my_review_status(pr_fixture(108))
+  end
+
+  def test_get_my_review_status_scopes_team_match_to_pr_org
+    # team slug matches but org does not — should not count as my team blocking
+    Bonanza.my_teams = Set.new(["other-org/team-monet"])
+    assert_equal "", Bonanza::Formatter.get_my_review_status(pr_fixture(107))
+  end
+
+  def test_get_my_review_status_personal_review_takes_precedence_over_team_request
+    Bonanza.my_teams = Set.new(["example/team-monet"])
+    # PR 106: I've already approved personally; team logic shouldn't override that.
+    assert_equal "APPROVED", Bonanza::Formatter.get_my_review_status(pr_fixture(106))
   end
 
   # --- format_priority ------------------------------------------------------

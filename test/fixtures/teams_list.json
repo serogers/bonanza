@@ -1,0 +1,36 @@
+[
+  {
+    "name": "Salon Patrons",
+    "slug": "salon-patrons",
+    "organization": {
+      "login": "The-Salon-de-Paris",
+      "id": 17657977,
+      "type": "Organization"
+    },
+    "parent": null
+  },
+  {
+    "name": "Painters",
+    "slug": "painters",
+    "description": "Remember that there is no brushstroke faster than no brushstroke.",
+    "organization": {
+      "login": "the-met",
+      "id": 40865417,
+      "type": "Organization"
+    },
+    "parent": null
+  },
+  {
+    "name": "team-monet",
+    "slug": "team-monet",
+    "organization": {
+      "login": "the-met",
+      "id": 40865417,
+      "type": "Organization"
+    },
+    "parent": {
+      "name": "Painters",
+      "slug": "painters"
+    }
+  }
+]
