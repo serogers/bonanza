@@ -23,7 +23,8 @@ module Bonanza
   private
 
     def load_default_config
-      @default_config = YAML.load_file("config/defaults.yml")
+      defaults_path = File.expand_path("../../config/defaults.yml", __dir__)
+      @default_config = YAML.load_file(defaults_path)
     end
 
     def load_user_config

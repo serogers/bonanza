@@ -6,6 +6,7 @@ module Bonanza
     def self.parse
       options = {}
       OptionParser.new do |parser|
+        parser.program_name = "bonanza"
 
         parser.on("-v", "--verbose", "Run with logging") do |args|
           options["verbose"] = true

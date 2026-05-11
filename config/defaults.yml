@@ -1,6 +1,9 @@
 # full or compact
 display_mode: full
 
+# Set to false to disable ANSI color escapes (useful for tests or piping output)
+colorize: true
+
 # Your github username
 gh_handle:
 

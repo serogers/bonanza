@@ -1,0 +1,17 @@
+# Fixture config used by the test suite.
+# Tests that need different values can pass overrides to `with_config`.
+
+gh_handle: current_user
+
+search_limit: 20
+
+display_mode: full
+
+colorize: false
+
+searches:
+  - --label critical
+
+author_colors:
+
+label_colors:

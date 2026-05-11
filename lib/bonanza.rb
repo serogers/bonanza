@@ -18,33 +18,35 @@ require_relative "bonanza/formatter"
 module Bonanza
   class Error < StandardError; end
 
+  class << self
+    attr_accessor :repo_path
+    attr_writer :config, :options
+  end
+
   def self.logger
-    @@logger ||= Logger.new($stdout, progname: "BONANZA")
+    @logger ||= Logger.new($stdout, progname: "BONANZA")
   end
 
   def self.log_verbose(message)
     logger.debug(message) if options["verbose"]
   end
 
-  def self.repo_path
-    @@repo_path
-  end
-
-  def self.repo_path=(path)
-    @@repo_path = path
-  end
-
   def self.options
-    @@options ||= Bonanza::Options.parse
+    @options ||= Bonanza::Options.parse
   end
 
   def self.config
-    @@config ||= Bonanza::Config.new(repo_path, options)
+    @config ||= Bonanza::Config.new(repo_path, options)
+  end
+
+  def self.boot(repo_path)
+    self.repo_path = repo_path
+    logger
+    config
+  end
+
+  def self.run(repo_path)
+    boot(repo_path)
+    Dashboard.new.render
   end
 end
-
-# Initialize the config
-Bonanza.repo_path = ARGV[0]
-Bonanza.config
-
-Bonanza::Dashboard.new.render

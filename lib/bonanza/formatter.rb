@@ -137,6 +137,7 @@ module Bonanza
 
     def self.colorize(value, color: nil)
       return value unless color
+      return value unless Bonanza.config.colorize
 
       # Default to amazing_print colors, otherwise use Paint
       # https://en.wikipedia.org/wiki/X11_color_names#Color_name_chart
