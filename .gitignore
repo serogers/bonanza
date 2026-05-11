@@ -1,3 +1,6 @@
 # Ignore bundler config.
 /.bundle
 .bonanza_conf.yml
+
+# Un-ignore the test fixture .bonanza.yml (typically ignored globally).
+!test/fixtures/repo/.bonanza.yml

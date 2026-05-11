@@ -3,7 +3,9 @@ GEM
   specs:
     amazing_print (2.0.0)
     logger (1.7.0)
+    minitest (5.27.0)
     paint (2.3.0)
+    rake (13.4.2)
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
     unicode-display_width (3.2.0)
@@ -19,7 +21,9 @@ PLATFORMS
 DEPENDENCIES
   amazing_print (~> 2.0)
   logger (~> 1.7)
+  minitest (~> 5.25)
   paint (~> 2.3)
+  rake (~> 13.2)
   terminal-table (~> 4.0)
 
 BUNDLED WITH

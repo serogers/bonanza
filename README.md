@@ -44,6 +44,37 @@ label_colors:
 
 Change to your project's directory, and run `bonanza` (or the alias you chose) to see the dashboard.
 
+## Testing
+
+The test suite uses [minitest](https://github.com/minitest/minitest) and lives in `test/`.
+
+```sh
+bundle install
+bundle exec rake test
+```
+
+Layout:
+- `test/test_helper.rb` — boots a minimal `Bonanza` module
+- `test/fixtures/` — fixtures used by tests
+- `test/bonanza/` — mirrors `lib/bonanza/`, one `*_test.rb` per class
+
+By default each test boots `Bonanza.config` from the fixture `.bonanza.yml`. To override values for a single test, wrap the assertion in `with_config`:
+
+```ruby
+with_config("author_colors" => { "monalisa" => :red }) do
+  # Bonanza.config.author_colors is { "monalisa" => :red } in here
+end
+```
+
+To capture a fresh fixture from a real repo:
+
+```sh
+cd /path/to/repo
+PAGER=cat gh pr list --state open --limit 5 \
+  --json title,reviewDecision,latestReviews,number,author,assignees,isDraft,labels,updatedAt,url \
+  > /path/to/bonanza/test/fixtures/<name>.json
+```
+
 ## FAQ
 
 **What are the different dashboard sections?**

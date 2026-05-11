@@ -1,0 +1,117 @@
+[
+  {
+    "number": 101,
+    "title": "Add Starry Night background to login flow",
+    "url": "https://github.com/example/repo/pull/101",
+    "isDraft": true,
+    "reviewDecision": "REVIEW_REQUIRED",
+    "author": { "login": "vangogh", "name": "Vincent van Gogh" },
+    "assignees": [],
+    "labels": [
+      { "name": "frontend", "color": "0052cc" },
+      { "name": "review-app", "color": "6733ff" }
+    ],
+    "latestReviews": [],
+    "updatedAt": "2026-05-11T22:00:00Z"
+  },
+  {
+    "number": 102,
+    "title": "Fix race condition in The Scream notification dispatcher",
+    "url": "https://github.com/example/repo/pull/102",
+    "isDraft": false,
+    "reviewDecision": "REVIEW_REQUIRED",
+    "author": { "login": "munch", "name": "Edvard Munch" },
+    "assignees": [
+      { "login": "current_user" },
+      { "login": "davinci" },
+      { "login": "dali" }
+    ],
+    "labels": [
+      { "name": "backend", "color": "FBCA04" }
+    ],
+    "latestReviews": [
+      {
+        "author": { "login": "current_user" },
+        "state": "COMMENTED",
+        "submittedAt": "2026-05-11T18:00:00Z"
+      }
+    ],
+    "updatedAt": "2026-05-11T20:00:00Z"
+  },
+  {
+    "number": 103,
+    "title": "Refactor: extract Persistence of Memory caching layer into its own module for reuse",
+    "url": "https://github.com/example/repo/pull/103",
+    "isDraft": false,
+    "reviewDecision": "APPROVED",
+    "author": { "login": "current_user", "name": "Current User" },
+    "assignees": [],
+    "labels": [
+      { "name": "backend", "color": "FBCA04" },
+      { "name": "critical", "color": "B60205" },
+      { "name": "tech-debt", "color": "CCCCCC" },
+      { "name": "should-be-truncated", "color": "000000" }
+    ],
+    "latestReviews": [
+      {
+        "author": { "login": "davinci" },
+        "state": "APPROVED",
+        "submittedAt": "2026-05-10T15:00:00Z"
+      },
+      {
+        "author": { "login": "vangogh" },
+        "state": "APPROVED",
+        "submittedAt": "2026-05-10T16:00:00Z"
+      }
+    ],
+    "updatedAt": "2026-05-10T16:00:00Z"
+  },
+  {
+    "number": 104,
+    "title": "Fix Composition VIII tile alignment in gallery view",
+    "url": "https://github.com/example/repo/pull/104",
+    "isDraft": false,
+    "reviewDecision": "CHANGES_REQUESTED",
+    "author": { "login": "kandinsky", "name": "Wassily Kandinsky" },
+    "assignees": [],
+    "labels": [],
+    "latestReviews": [
+      {
+        "author": { "login": "current_user" },
+        "state": "CHANGES_REQUESTED",
+        "submittedAt": "2026-05-09T10:00:00Z"
+      }
+    ],
+    "updatedAt": "2026-05-09T10:00:00Z"
+  },
+  {
+    "number": 105,
+    "title": "Wire up feature flag for experimental Two Fridas layout",
+    "url": "https://github.com/example/repo/pull/105",
+    "isDraft": false,
+    "reviewDecision": "",
+    "author": { "login": "kahlo", "name": "Frida Kahlo" },
+    "assignees": [],
+    "labels": [],
+    "latestReviews": [],
+    "updatedAt": "2026-04-01T12:00:00Z"
+  },
+  {
+    "number": 106,
+    "title": "Bump dependencies for Guernica image processor",
+    "url": "https://github.com/example/repo/pull/106",
+    "isDraft": false,
+    "reviewDecision": "REVIEW_REQUIRED",
+    "author": { "login": "picasso", "name": "Pablo Picasso" },
+    "assignees": [],
+    "labels": [],
+    "latestReviews": [
+      {
+        "author": { "login": "current_user" },
+        "state": "APPROVED",
+        "submittedAt": "2026-05-11T17:00:00Z"
+      }
+    ],
+    "updatedAt": "2026-05-11T17:00:00Z"
+  }
+]
