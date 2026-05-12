@@ -78,9 +78,18 @@ module Bonanza
     end
 
     def self.format_review(pr)
-      status = get_review_status(pr)
-      color  = STATUS_COLORS[status]
-      colorize(status, color: color)
+      status  = get_review_status(pr)
+      color   = STATUS_COLORS[status]
+      counts  = review_counts(pr)
+      display = counts && !status.empty? ? "#{status} (#{counts})" : status
+      colorize(display, color: color)
+    end
+
+    def self.review_counts(pr)
+      completed = pr["latestReviews"].to_a.count { |r| %w[APPROVED CHANGES_REQUESTED].include?(r["state"]) }
+      pending   = pr["reviewRequests"].to_a.size
+      total     = completed + pending
+      total.positive? ? "#{completed}/#{total}" : nil
     end
 
     def self.format_done(pr)
