@@ -136,6 +136,8 @@ module Bonanza
     end
 
     def self.get_my_review_status(pr)
+      return "" if pr["author"]["login"] == Bonanza.config.gh_handle
+
       status = pr["latestReviews"].to_a.find { |r| r["author"]["login"] == Bonanza.config.gh_handle }.to_h["state"]
       return normalize_review_status(status) unless status.nil?
 
