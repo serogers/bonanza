@@ -18,10 +18,10 @@ class GithubTest < Minitest::Test
 
   # --- get_my_teams ---------------------------------------------------------
 
-  def test_get_my_teams_invokes_gh_user_teams_with_pagination
+  def test_get_my_teams_invokes_gh_user_teams_with_pagination_and_cache
     stub_exec("[]") do |captured|
       Bonanza::Github.get_my_teams
-      assert_equal ["gh api /user/teams --paginate"], captured
+      assert_equal ["gh api /user/teams --paginate --cache 24h"], captured
     end
   end
 
