@@ -56,6 +56,12 @@ class FormatterTest < Minitest::Test
     assert_equal "REQUIRED", Bonanza::Formatter.get_my_review_status(pr_fixture(107))
   end
 
+  def test_get_my_review_status_is_empty_when_i_am_the_author_even_if_my_team_is_pending
+    Bonanza.my_teams = Set.new(["the-met/team-monet"])
+    pr = pr_fixture(107).merge("author" => { "login" => "current_user" })
+    assert_equal "", Bonanza::Formatter.get_my_review_status(pr)
+  end
+
   def test_get_my_review_status_is_empty_when_only_other_teams_are_pending_reviewers
     Bonanza.my_teams = Set.new(["the-met/team-monet"])
     assert_equal "", Bonanza::Formatter.get_my_review_status(pr_fixture(108))
