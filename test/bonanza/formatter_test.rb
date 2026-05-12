@@ -73,6 +73,43 @@ class FormatterTest < Minitest::Test
     assert_equal "APPROVED", Bonanza::Formatter.get_my_review_status(pr_fixture(106))
   end
 
+  # --- format_review --------------------------------------------------------
+
+  def test_format_review_omits_counts_when_no_completed_or_pending_reviews
+    # PR 105 has empty latestReviews and no reviewRequests.
+    assert_equal "REQUIRED", Bonanza::Formatter.format_review(pr_fixture(105))
+  end
+
+  def test_format_review_omits_counts_on_drafts
+    # Status is "" for drafts; we don't decorate with counts.
+    assert_equal "", Bonanza::Formatter.format_review(pr_fixture(101))
+  end
+
+  def test_format_review_appends_counts_for_pending_team_review
+    # PR 107: 0 completed, 1 pending (team).
+    assert_equal "REQUIRED (0/1)", Bonanza::Formatter.format_review(pr_fixture(107))
+  end
+
+  def test_format_review_appends_counts_for_pending_user_and_team_review
+    # PR 108: 0 completed, 2 pending (team + user).
+    assert_equal "REQUIRED (0/2)", Bonanza::Formatter.format_review(pr_fixture(108))
+  end
+
+  def test_format_review_counts_approved_reviews_as_completed
+    # PR 103: 2 APPROVED reviews, no pending requests.
+    assert_equal "APPROVED (2/2)", Bonanza::Formatter.format_review(pr_fixture(103))
+  end
+
+  def test_format_review_counts_changes_requested_as_completed
+    # PR 104: 1 CHANGES_REQUESTED review, no pending requests.
+    assert_equal "REJECTED (1/1)", Bonanza::Formatter.format_review(pr_fixture(104))
+  end
+
+  def test_format_review_does_not_count_commented_reviews_as_completed
+    # PR 102: 1 COMMENTED review, no pending requests — nothing to display.
+    assert_equal "REQUIRED", Bonanza::Formatter.format_review(pr_fixture(102))
+  end
+
   # --- format_priority ------------------------------------------------------
 
   def test_format_priority_uses_review_required_when_not_yet_approved
