@@ -57,9 +57,8 @@ module Bonanza
       my_teams = Bonanza.my_teams
       return true if my_teams.empty?
 
-      org = pr["url"].split("/")[3]
       pr["reviewRequests"].to_a.none? do |req|
-        req["slug"] && my_teams.include?("#{org}/#{req['slug']}")
+        req["slug"] && my_teams.include?(req['slug'])
       end
     end
 
