@@ -16,10 +16,6 @@ class GithubTest < Minitest::Test
     Bonanza::Github.singleton_class.send(:remove_method, :execute)
   end
 
-  def teams_fixture
-    File.read(File.join(FixtureHelpers::FIXTURE_DIR, "teams_list.json"))
-  end
-
   # --- get_my_teams ---------------------------------------------------------
 
   def test_get_my_teams_invokes_gh_user_teams_with_pagination
@@ -36,7 +32,7 @@ class GithubTest < Minitest::Test
   end
 
   def test_get_my_teams_maps_each_team_to_org_slash_slug
-    stub_exec(teams_fixture) do
+    stub_exec(load_fixture("teams_list").to_json) do
       teams = Bonanza::Github.get_my_teams
 
       assert_equal Set.new(%w[
