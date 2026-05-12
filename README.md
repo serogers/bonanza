@@ -96,10 +96,7 @@ This is used to signify whether a pull request needs your attention. For example
 
 **Is this production ready?**
 
-Ha! This little utility was created to fulfill an immediate personal need. As such comments and tests are limited. Use at your own risk!
-
-**What's next?**
-There's much that could be added, but it'll be dictated by demand and time. Perhaps some more options, add a CLI, make it a rubygem, who knows!
+This utility was created to fulfill a personal need. As such, the implementation and tests cover my use cases. However it should be safe to use (though at your own risk).
 
 **I've got an idea, how to contribute?**
 

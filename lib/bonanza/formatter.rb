@@ -22,6 +22,8 @@ module Bonanza
       "COMMENTED" => :orange
     }.freeze
 
+    # --- format methods -------------------------------------------------------
+
     def self.format(pr)
       # Order matters as some build off each other
       pr["priority"]       = format_priority(pr)
@@ -37,31 +39,6 @@ module Bonanza
       pr
     end
 
-    def self.get_review_status(pr)
-      return "" if pr["isDraft"]
-
-      # GH sometimes has empty reviewDecision for PRs that are open and have no reviews yet
-      return "REQUIRED" if pr["reviewDecision"].nil? || pr["reviewDecision"].empty?
-
-      PR_REVIEW_STATUS_MAP[pr["reviewDecision"]] || pr["reviewDecision"]
-    end
-
-    def self.get_my_review_status(pr)
-      status = pr["latestReviews"].to_a.find { |r| r["author"]["login"] == Bonanza.config.gh_handle }.to_h["state"]
-      return status unless status.nil?
-
-      my_teams_satisfied?(pr) ? "" : "REQUIRED"
-    end
-
-    def self.my_teams_satisfied?(pr)
-      my_teams = Bonanza.my_teams
-      return true if my_teams.empty?
-
-      pr["reviewRequests"].to_a.none? do |req|
-        req["slug"] && my_teams.include?(req['slug'])
-      end
-    end
-
     def self.format_priority(pr)
       review_status = get_review_status(pr)
       my_review_status = get_my_review_status(pr)
@@ -70,9 +47,17 @@ module Bonanza
       PR_REVIEW_PRIORITY.index(pr_status)
     end
 
+    def self.format_done(pr)
+      review_done    = review_done?(get_review_status(pr))
+      my_review_done = get_my_review_status(pr) == "APPROVED"
+      draft_pr       = pr["isDraft"]
+
+      done = review_done || my_review_done || draft_pr
+      done ? " 🟢" : " ⭕️"
+    end
+
     def self.format_my_review(pr)
       status = get_my_review_status(pr)
-      status = "REJECTED" if status == "CHANGES_REQUESTED"
       color  = STATUS_COLORS[status]
       colorize(status, color: color)
     end
@@ -83,22 +68,6 @@ module Bonanza
       counts  = review_counts(pr)
       display = counts && !status.empty? ? "#{status} (#{counts})" : status
       colorize(display, color: color)
-    end
-
-    def self.review_counts(pr)
-      completed = pr["latestReviews"].to_a.count { |r| %w[APPROVED CHANGES_REQUESTED].include?(r["state"]) }
-      pending   = pr["reviewRequests"].to_a.size
-      total     = completed + pending
-      total.positive? ? "#{completed}/#{total}" : nil
-    end
-
-    def self.format_done(pr)
-      review_done    = ["APPROVED", "REJECTED"].include?(get_review_status(pr))
-      my_review_done = get_my_review_status(pr) == "APPROVED"
-      draft_pr       = pr["isDraft"]
-
-      done = review_done || my_review_done || draft_pr
-      pr["done"] = done ? " 🟢" : " ⭕️"
     end
 
     def self.format_title(pr)
@@ -153,6 +122,48 @@ module Bonanza
               end
 
       colorize(updated_at.strftime("%a %b %d @ %k:%M"), color: color)
+    end
+
+    # --- utility methods ------------------------------------------------------
+
+    def self.get_review_status(pr)
+      return "" if pr["isDraft"]
+
+      # GH sometimes has empty reviewDecision for PRs that are open and have no reviews yet
+      return "REQUIRED" if pr["reviewDecision"].nil? || pr["reviewDecision"].empty?
+
+      normalize_review_status(pr["reviewDecision"])
+    end
+
+    def self.get_my_review_status(pr)
+      status = pr["latestReviews"].to_a.find { |r| r["author"]["login"] == Bonanza.config.gh_handle }.to_h["state"]
+      return normalize_review_status(status) unless status.nil?
+
+      my_teams_satisfied?(pr) ? "" : "REQUIRED"
+    end
+
+    def self.my_teams_satisfied?(pr)
+      my_teams = Bonanza.my_teams
+      return true if my_teams.empty?
+
+      pr["reviewRequests"].to_a.none? do |req|
+        req["slug"] && my_teams.include?(req['slug'])
+      end
+    end
+
+    def self.normalize_review_status(status)
+      PR_REVIEW_STATUS_MAP[status] || status
+    end
+
+    def self.review_done?(status)
+      %w[APPROVED REJECTED].include?(status)
+    end
+
+    def self.review_counts(pr)
+      completed = pr["latestReviews"].to_a.count { |r| review_done?(normalize_review_status(r["state"])) }
+      pending   = pr["reviewRequests"].to_a.size
+      total     = completed + pending
+      total.positive? ? "#{completed}/#{total}" : nil
     end
 
     def self.colorize(value, color: nil)
