@@ -5,7 +5,7 @@ module Bonanza
 
     def self.get_my_teams
       Bonanza.log_verbose("Fetching user teams")
-      teams = JSON.parse(execute("gh api /user/teams --paginate"))
+      teams = JSON.parse(execute("gh api /user/teams --paginate --cache 24h"))
       Set.new(teams.map { |t| "#{t['organization']['login']}/#{t['slug']}" })
     rescue StandardError => e
       Bonanza.log_verbose("Failed to fetch user teams: #{e.message}")
