@@ -52,12 +52,12 @@ class FormatterTest < Minitest::Test
   end
 
   def test_get_my_review_status_is_required_when_my_team_is_a_pending_reviewer
-    Bonanza.my_teams = Set.new(["example/team-monet"])
+    Bonanza.my_teams = Set.new(["the-met/team-monet"])
     assert_equal "REQUIRED", Bonanza::Formatter.get_my_review_status(pr_fixture(107))
   end
 
   def test_get_my_review_status_is_empty_when_only_other_teams_are_pending_reviewers
-    Bonanza.my_teams = Set.new(["example/team-monet"])
+    Bonanza.my_teams = Set.new(["the-met/team-monet"])
     assert_equal "", Bonanza::Formatter.get_my_review_status(pr_fixture(108))
   end
 
@@ -68,7 +68,7 @@ class FormatterTest < Minitest::Test
   end
 
   def test_get_my_review_status_personal_review_takes_precedence_over_team_request
-    Bonanza.my_teams = Set.new(["example/team-monet"])
+    Bonanza.my_teams = Set.new(["the-met/team-monet"])
     # PR 106: I've already approved personally; team logic shouldn't override that.
     assert_equal "APPROVED", Bonanza::Formatter.get_my_review_status(pr_fixture(106))
   end

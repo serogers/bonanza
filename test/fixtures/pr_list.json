@@ -125,7 +125,7 @@
     "labels": [],
     "latestReviews": [],
     "reviewRequests": [
-      { "__typename": "Team", "name": "team-monet", "slug": "team-monet" }
+      { "__typename": "Team", "name": "team-monet", "slug": "the-met/team-monet" }
     ],
     "updatedAt": "2026-05-11T19:00:00Z"
   },
@@ -140,7 +140,7 @@
     "labels": [],
     "latestReviews": [],
     "reviewRequests": [
-      { "__typename": "Team", "name": "Sculptors", "slug": "sculptors" },
+      { "__typename": "Team", "name": "Sculptors", "slug": "the-met/sculptors" },
       { "__typename": "User", "login": "rodin" }
     ],
     "updatedAt": "2026-05-11T19:30:00Z"
