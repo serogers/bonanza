@@ -38,17 +38,29 @@ module Bonanza
     end
 
     def self.get_review_status(pr)
-      if pr["isDraft"]
-        ""
-      elsif pr["reviewDecision"].nil? || pr["reviewDecision"].empty?
-        "REQUIRED" # GH sometimes has empty reviewDecision for PRs that are open and have no reviews yet
-      else
-        PR_REVIEW_STATUS_MAP[pr["reviewDecision"]] || pr["reviewDecision"]
-      end
+      return "" if pr["isDraft"]
+
+      # GH sometimes has empty reviewDecision for PRs that are open and have no reviews yet
+      return "REQUIRED" if pr["reviewDecision"].nil? || pr["reviewDecision"].empty?
+
+      PR_REVIEW_STATUS_MAP[pr["reviewDecision"]] || pr["reviewDecision"]
     end
 
     def self.get_my_review_status(pr)
-      pr["latestReviews"].to_a.find { |r| r["author"]["login"] == Bonanza.config.gh_handle }.to_h["state"]
+      status = pr["latestReviews"].to_a.find { |r| r["author"]["login"] == Bonanza.config.gh_handle }.to_h["state"]
+      return status unless status.nil?
+
+      my_teams_satisfied?(pr) ? "" : "REQUIRED"
+    end
+
+    def self.my_teams_satisfied?(pr)
+      my_teams = Bonanza.my_teams
+      return true if my_teams.empty?
+
+      org = pr["url"].split("/")[3]
+      pr["reviewRequests"].to_a.none? do |req|
+        req["slug"] && my_teams.include?("#{org}/#{req['slug']}")
+      end
     end
 
     def self.format_priority(pr)

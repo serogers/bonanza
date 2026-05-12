@@ -8,6 +8,7 @@ module Bonanza
       { title: "Title", field: "title", compact: true },
       { title: "Review", field: "reviewDecision", compact: true },
       { field: "latestReviews", hidden: true },
+      { field: "reviewRequests", hidden: true },
       { title: "My Review", field: "myReview", computed: true, compact: true },
       { title: "PR #", field: "number", hidden: true },
       { title: "Author", field: "author", compact: true },
@@ -79,10 +80,8 @@ module Bonanza
     end
 
     def find_prs_by(search)
-      fields = search_columns.map { |c| c[:field] }.compact.join(",")
-      base = "PAGER=cat gh pr list --state open --limit #{@search_limit} --json #{fields}"
-      cmd = "#{base} #{search}"
-      JSON.parse(run_cmd(cmd))
+      fields = search_columns.map { |c| c[:field] }.compact
+      Bonanza::Github.search_prs(search, limit: @search_limit, fields: fields)
     end
 
     def print_table
@@ -113,11 +112,6 @@ module Bonanza
       table_title = Bonanza::Formatter.colorize("Bonanza! --- Pull requests for #{@gh_handle} (#{Bonanza.repo_path})", color: :white)
       table = Terminal::Table.new(title: table_title, rows: rows, headings: display_columns.map { |c| c[:title] })
       puts table
-    end
-
-    def run_cmd(cmd)
-      Bonanza.log_verbose("Running command: #{cmd}")
-      `cd #{Bonanza.repo_path}; #{cmd}`
     end
 
   end

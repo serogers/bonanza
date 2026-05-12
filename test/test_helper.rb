@@ -51,7 +51,8 @@ class Minitest::Test
   include ConfigHelpers
 
   def setup
-    Bonanza.options = {}
-    Bonanza.config  = build_fixture_config
+    Bonanza.options  = {}
+    Bonanza.config   = build_fixture_config
+    Bonanza.my_teams = Set.new
   end
 end
