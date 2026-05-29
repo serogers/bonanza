@@ -72,6 +72,9 @@ module Bonanza
             Bonanza.log_verbose("Formatting: PR #{pr['number']}")
             Bonanza::Formatter.format(pr)
           end.sort_by { |pr| pr["priority"] }
+        rescue StandardError => e
+          @pr_groups[index] = []
+          Bonanza.logger.error("Search failed: #{search} - #{e.class}: #{e.message}")
         end
       end
       threads.each(&:join)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "optparse"
 
 module Bonanza
@@ -14,7 +16,7 @@ module Bonanza
 
         # TODO: Handle YAML array syntax
         parser.on("-o", "--options \"key1: value1\",\"key2: [value1, value2]\"", Array, "Specify config options for this run") do |arg|
-          arg.each { |a| options.merge!(YAML.load(a)) }
+          arg.each { |a| options.merge!(YAML.safe_load(a)) }
         end
 
       end.parse!

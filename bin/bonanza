@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 bonanza_exec="$(dirname "$(realpath "$0")")"
-bonanza_dir="$bonanza_exec/../"
-repo_dir=$PWD
+bonanza_dir="$bonanza_exec/.."
+repo_dir="$PWD"
 
-zsh -c "cd $bonanza_dir && ruby -r ./lib/bonanza -e 'Bonanza.run(ARGV.shift)' $repo_dir '$@'"
+cd "$bonanza_dir" && exec ruby -r ./lib/bonanza -e 'Bonanza.run(ARGV.shift)' "$repo_dir" "$@"

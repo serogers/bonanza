@@ -7,8 +7,8 @@ class GithubTest < Minitest::Test
   # Replaces Bonanza::Github.execute so tests never invoke the real CLI.
   def stub_exec(output)
     captured = []
-    Bonanza::Github.define_singleton_method(:execute) do |cmd|
-      captured << cmd
+    Bonanza::Github.define_singleton_method(:execute) do |*args, **kwargs|
+      captured << { args: args, kwargs: kwargs }
       output
     end
     yield captured
@@ -21,7 +21,10 @@ class GithubTest < Minitest::Test
   def test_get_my_teams_invokes_gh_user_teams_with_pagination_and_cache
     stub_exec("[]") do |captured|
       Bonanza::Github.get_my_teams
-      assert_equal ["gh api /user/teams --paginate --cache 24h"], captured
+      assert_equal [{
+        args: ["gh", "api", "/user/teams", "--paginate", "--cache", "24h"],
+        kwargs: {},
+      }], captured
     end
   end
 
@@ -67,9 +70,25 @@ class GithubTest < Minitest::Test
     Bonanza.repo_path = "/tmp/some-repo"
     stub_exec("[]") do |captured|
       Bonanza::Github.search_prs("--author vangogh", limit: 20, fields: %w[number title])
-      assert_equal [
-        "cd /tmp/some-repo; PAGER=cat gh pr list --state open --limit 20 --json number,title --author vangogh",
-      ], captured
+      assert_equal [{
+        args: ["gh", "pr", "list", "--state", "open", "--limit", "20", "--json", "number,title", "--author", "vangogh"],
+        kwargs: { env: { "PAGER" => "cat" }, chdir: "/tmp/some-repo" },
+      }], captured
+    end
+  ensure
+    Bonanza.repo_path = nil
+  end
+
+  def test_search_prs_splits_search_string_into_argv_without_a_shell
+    Bonanza.repo_path = "/tmp/some-repo"
+    # A malicious search string with shell metacharacters must be passed as
+    # literal argv tokens, not interpreted by a shell.
+    stub_exec("[]") do |captured|
+      Bonanza::Github.search_prs("--author vangogh; rm -rf ~", limit: 5, fields: %w[number])
+      assert_equal(
+        ["gh", "pr", "list", "--state", "open", "--limit", "5", "--json", "number", "--author", "vangogh;", "rm", "-rf", "~"],
+        captured.first[:args],
+      )
     end
   ensure
     Bonanza.repo_path = nil
