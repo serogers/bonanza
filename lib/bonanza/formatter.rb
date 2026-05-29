@@ -106,16 +106,13 @@ module Bonanza
 
     def self.format_updated_at(pr)
       updated_at = Time.parse(pr["updatedAt"]).localtime
+      age = Time.now - updated_at
 
-      within_hour   = updated_at >= (Time.now - 3600)
-      within_day    = updated_at >= (Time.now - 86_400)
-      within_3_days = updated_at >= (Time.now - 259_200)
-
-      color = if within_hour
+      color = if age < 3600 # 1 hour
                 :green
-              elsif within_day
+              elsif age < 86_400 # 1 day
                 :yellow
-              elsif within_3_days
+              elsif age < 259_200 # 3 days
                 :orange
               else
                 :red
