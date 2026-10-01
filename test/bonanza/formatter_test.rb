@@ -205,6 +205,27 @@ class FormatterTest < Minitest::Test
                  Bonanza::Formatter.format_labels(pr_fixture(103))
   end
 
+  # --- format_target --------------------------------------------------------
+
+  def test_format_target_returns_plain_name_for_default_branches
+    with_config(colorize: true) do
+      assert_equal "main",   Bonanza::Formatter.format_target("baseRefName" => "main")
+      assert_equal "master", Bonanza::Formatter.format_target("baseRefName" => "master")
+    end
+  end
+
+  def test_format_target_highlights_non_default_branches
+    with_config(colorize: true) do
+      formatted = Bonanza::Formatter.format_target(pr_fixture(104))
+      refute_equal "release/2026-05", formatted, "expected non-default branch to be colorized"
+      assert_includes formatted, "release/2026-05"
+    end
+  end
+
+  def test_format_target_handles_missing_branch
+    assert_equal "", Bonanza::Formatter.format_target({})
+  end
+
   # --- format_draft ---------------------------------------------------------
 
   def test_format_draft_distinguishes_draft_from_open
@@ -228,7 +249,7 @@ class FormatterTest < Minitest::Test
 
     # Adds computed columns
     assert_equal 0, formatted["priority"]
-    %w[done myReview reviewDecision title author assignees labels isDraft updatedAt].each do |key|
+    %w[done myReview reviewDecision title author assignees labels baseRefName isDraft updatedAt].each do |key|
       assert formatted.key?(key), "expected formatted PR to have #{key}"
     end
 

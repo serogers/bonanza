@@ -12,7 +12,8 @@
       { "name": "review-app", "color": "6733ff" }
     ],
     "latestReviews": [],
-    "updatedAt": "2026-05-11T22:00:00Z"
+    "updatedAt": "2026-05-11T22:00:00Z",
+    "baseRefName": "main"
   },
   {
     "number": 102,
@@ -36,7 +37,8 @@
         "submittedAt": "2026-05-11T18:00:00Z"
       }
     ],
-    "updatedAt": "2026-05-11T20:00:00Z"
+    "updatedAt": "2026-05-11T20:00:00Z",
+    "baseRefName": "main"
   },
   {
     "number": 103,
@@ -64,7 +66,8 @@
         "submittedAt": "2026-05-10T16:00:00Z"
       }
     ],
-    "updatedAt": "2026-05-10T16:00:00Z"
+    "updatedAt": "2026-05-10T16:00:00Z",
+    "baseRefName": "main"
   },
   {
     "number": 104,
@@ -82,7 +85,8 @@
         "submittedAt": "2026-05-09T10:00:00Z"
       }
     ],
-    "updatedAt": "2026-05-09T10:00:00Z"
+    "updatedAt": "2026-05-09T10:00:00Z",
+    "baseRefName": "release/2026-05"
   },
   {
     "number": 105,
@@ -94,7 +98,8 @@
     "assignees": [],
     "labels": [],
     "latestReviews": [],
-    "updatedAt": "2026-04-01T12:00:00Z"
+    "updatedAt": "2026-04-01T12:00:00Z",
+    "baseRefName": "main"
   },
   {
     "number": 106,
@@ -112,7 +117,8 @@
         "submittedAt": "2026-05-11T17:00:00Z"
       }
     ],
-    "updatedAt": "2026-05-11T17:00:00Z"
+    "updatedAt": "2026-05-11T17:00:00Z",
+    "baseRefName": "main"
   },
   {
     "number": 107,
@@ -127,7 +133,8 @@
     "reviewRequests": [
       { "__typename": "Team", "name": "team-monet", "slug": "the-met/team-monet" }
     ],
-    "updatedAt": "2026-05-11T19:00:00Z"
+    "updatedAt": "2026-05-11T19:00:00Z",
+    "baseRefName": "main"
   },
   {
     "number": 108,
@@ -143,6 +150,7 @@
       { "__typename": "Team", "name": "Sculptors", "slug": "the-met/sculptors" },
       { "__typename": "User", "login": "rodin" }
     ],
-    "updatedAt": "2026-05-11T19:30:00Z"
+    "updatedAt": "2026-05-11T19:30:00Z",
+    "baseRefName": "main"
   }
 ]

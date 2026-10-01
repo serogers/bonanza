@@ -15,6 +15,7 @@ module Bonanza
       { title: "Assignees", field: "assignees" },
       { title: "Draft", field: "isDraft" },
       { title: "Labels", field: "labels" },
+      { title: "Target", field: "baseRefName" },
       { title: "Last Updated", field: "updatedAt", compact: true },
       { title: "URL", field: "url", compact: true },
       # { title: "Branch", field: "headRefName" }

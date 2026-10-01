@@ -22,6 +22,9 @@ module Bonanza
       "COMMENTED" => :orange
     }.freeze
 
+    # Branches we consider the "normal" target; anything else is highlighted.
+    DEFAULT_BRANCHES = %w[main master].freeze
+
     # --- format methods -------------------------------------------------------
 
     def self.format(pr)
@@ -34,6 +37,7 @@ module Bonanza
       pr["author"]         = format_author(pr)
       pr["assignees"]      = format_assignees(pr)
       pr["labels"]         = format_labels(pr)
+      pr["baseRefName"]    = format_target(pr)
       pr["isDraft"]        = format_draft(pr)
       pr["updatedAt"]      = format_updated_at(pr)
       pr
@@ -98,6 +102,11 @@ module Bonanza
       end.map do |label|
         colorize(label["name"], color: label_colors[label["name"]] || label["color"])
       end.first(3).join(", ")
+    end
+
+    def self.format_target(pr)
+      branch = pr["baseRefName"].to_s
+      DEFAULT_BRANCHES.include?(branch) ? branch : colorize(branch, color: :yellow)
     end
 
     def self.format_draft(pr)
