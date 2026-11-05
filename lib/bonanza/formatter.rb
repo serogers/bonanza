@@ -15,8 +15,6 @@ module Bonanza
       "CHANGES_REQUESTED" => "REJECTED",
     }.freeze
 
-    REVIEW_VERDICT_STATES = %w[APPROVED CHANGES_REQUESTED DISMISSED].freeze
-
     STATUS_COLORS = {
       "APPROVED"  => :green,
       "REQUIRED"  => :yellow,
@@ -174,12 +172,11 @@ module Bonanza
 
     # Each reviewer's most recent verdict, falling back to their most recent
     # review. A comment after an approval doesn't revoke it on GitHub, but
-    # GitHub's latestReviews would report it as COMMENTED, so we derive this
-    # from the full review history instead.
+    # latestReviews reports it as COMMENTED, so latestOpinionatedReviews
+    # (verdicts only) takes precedence.
     def self.latest_reviews(pr)
-      pr["reviews"].to_a.group_by { |r| r.dig("author", "login") }.transform_values do |reviews|
-        verdicts = reviews.select { |r| REVIEW_VERDICT_STATES.include?(r["state"]) }
-        (verdicts.empty? ? reviews : verdicts).max_by { |r| r["submittedAt"].to_s }
+      (pr["latestReviews"].to_a + pr["latestOpinionatedReviews"].to_a).to_h do |review|
+        [review.dig("author", "login"), review]
       end
     end
 

@@ -72,4 +72,19 @@ class ConfigTest < Minitest::Test
     end
   end
 
+  def test_raises_when_searches_use_legacy_gh_flags
+    with_repo("gh_handle" => "vangogh", "searches" => ["label:ok", "--label critical"]) do |dir|
+      error = assert_raises(Bonanza::Error) { Bonanza::Config.new(dir) }
+      assert_match(/GitHub search syntax/, error.message)
+      assert_match(/--label critical/, error.message)
+      refute_match(/label:ok/, error.message)
+    end
+  end
+
+  def test_accepts_github_search_syntax
+    with_repo("gh_handle" => "vangogh", "searches" => ["label:critical", "review:required"]) do |dir|
+      assert_equal %w[label:critical review:required], Bonanza::Config.new(dir).searches
+    end
+  end
+
 end

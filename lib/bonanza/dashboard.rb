@@ -4,14 +4,11 @@ module Bonanza
   class Dashboard
 
     COLUMNS = [
-      { title: "Done", field: "done", computed: true, compact: true },
+      { title: "Done", field: "done", compact: true },
       { title: "Title", field: "title", compact: true },
       { title: "Changes", field: "additions", compact: true },
-      { field: "deletions", hidden: true },
       { title: "Review", field: "reviewDecision", compact: true },
-      { field: "reviews", hidden: true },
-      { field: "reviewRequests", hidden: true },
-      { title: "My Review", field: "myReview", computed: true, compact: true },
+      { title: "My Review", field: "myReview", compact: true },
       { title: "PR #", field: "number", hidden: true },
       { title: "Author", field: "author", compact: true },
       { title: "Assignees", field: "assignees" },
@@ -51,14 +48,10 @@ module Bonanza
         end
     end
 
-    def search_columns
-      @search_columns ||= COLUMNS.reject { |c| c[:computed] }
-    end
-
     def base_searches
       [
-        "--author #{@gh_handle}",
-        "--search involves:#{@gh_handle}"
+        "author:#{@gh_handle}",
+        "involves:#{@gh_handle}"
       ]
     end
 
@@ -86,8 +79,7 @@ module Bonanza
     end
 
     def find_prs_by(search)
-      fields = search_columns.map { |c| c[:field] }.compact
-      Bonanza::Github.search_prs(search, limit: @search_limit, fields: fields)
+      Bonanza::Github.search_prs(search, limit: @search_limit)
     end
 
     def print_table

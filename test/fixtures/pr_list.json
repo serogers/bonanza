@@ -5,13 +5,23 @@
     "url": "https://github.com/example/repo/pull/101",
     "isDraft": true,
     "reviewDecision": "REVIEW_REQUIRED",
-    "author": { "login": "vangogh", "name": "Vincent van Gogh" },
+    "author": {
+      "login": "vangogh",
+      "name": "Vincent van Gogh"
+    },
     "assignees": [],
     "labels": [
-      { "name": "frontend", "color": "0052cc" },
-      { "name": "review-app", "color": "6733ff" }
+      {
+        "name": "frontend",
+        "color": "0052cc"
+      },
+      {
+        "name": "review-app",
+        "color": "6733ff"
+      }
     ],
-    "reviews": [],
+    "latestReviews": [],
+    "latestOpinionatedReviews": [],
     "updatedAt": "2026-05-11T22:00:00Z",
     "baseRefName": "main",
     "additions": 12,
@@ -23,22 +33,37 @@
     "url": "https://github.com/example/repo/pull/102",
     "isDraft": false,
     "reviewDecision": "REVIEW_REQUIRED",
-    "author": { "login": "munch", "name": "Edvard Munch" },
+    "author": {
+      "login": "munch",
+      "name": "Edvard Munch"
+    },
     "assignees": [
-      { "login": "current_user" },
-      { "login": "davinci" },
-      { "login": "dali" }
+      {
+        "login": "current_user"
+      },
+      {
+        "login": "davinci"
+      },
+      {
+        "login": "dali"
+      }
     ],
     "labels": [
-      { "name": "backend", "color": "FBCA04" }
-    ],
-    "reviews": [
       {
-        "author": { "login": "current_user" },
+        "name": "backend",
+        "color": "FBCA04"
+      }
+    ],
+    "latestReviews": [
+      {
+        "author": {
+          "login": "current_user"
+        },
         "state": "COMMENTED",
         "submittedAt": "2026-05-11T18:00:00Z"
       }
     ],
+    "latestOpinionatedReviews": [],
     "updatedAt": "2026-05-11T20:00:00Z",
     "baseRefName": "main",
     "additions": 48,
@@ -50,22 +75,57 @@
     "url": "https://github.com/example/repo/pull/103",
     "isDraft": false,
     "reviewDecision": "APPROVED",
-    "author": { "login": "current_user", "name": "Current User" },
+    "author": {
+      "login": "current_user",
+      "name": "Current User"
+    },
     "assignees": [],
     "labels": [
-      { "name": "backend", "color": "FBCA04" },
-      { "name": "critical", "color": "B60205" },
-      { "name": "tech-debt", "color": "CCCCCC" },
-      { "name": "should-be-truncated", "color": "000000" }
-    ],
-    "reviews": [
       {
-        "author": { "login": "davinci" },
+        "name": "backend",
+        "color": "FBCA04"
+      },
+      {
+        "name": "critical",
+        "color": "B60205"
+      },
+      {
+        "name": "tech-debt",
+        "color": "CCCCCC"
+      },
+      {
+        "name": "should-be-truncated",
+        "color": "000000"
+      }
+    ],
+    "latestReviews": [
+      {
+        "author": {
+          "login": "davinci"
+        },
         "state": "APPROVED",
         "submittedAt": "2026-05-10T15:00:00Z"
       },
       {
-        "author": { "login": "vangogh" },
+        "author": {
+          "login": "vangogh"
+        },
+        "state": "APPROVED",
+        "submittedAt": "2026-05-10T16:00:00Z"
+      }
+    ],
+    "latestOpinionatedReviews": [
+      {
+        "author": {
+          "login": "davinci"
+        },
+        "state": "APPROVED",
+        "submittedAt": "2026-05-10T15:00:00Z"
+      },
+      {
+        "author": {
+          "login": "vangogh"
+        },
         "state": "APPROVED",
         "submittedAt": "2026-05-10T16:00:00Z"
       }
@@ -81,12 +141,26 @@
     "url": "https://github.com/example/repo/pull/104",
     "isDraft": false,
     "reviewDecision": "CHANGES_REQUESTED",
-    "author": { "login": "kandinsky", "name": "Wassily Kandinsky" },
+    "author": {
+      "login": "kandinsky",
+      "name": "Wassily Kandinsky"
+    },
     "assignees": [],
     "labels": [],
-    "reviews": [
+    "latestReviews": [
       {
-        "author": { "login": "current_user" },
+        "author": {
+          "login": "current_user"
+        },
+        "state": "CHANGES_REQUESTED",
+        "submittedAt": "2026-05-09T10:00:00Z"
+      }
+    ],
+    "latestOpinionatedReviews": [
+      {
+        "author": {
+          "login": "current_user"
+        },
         "state": "CHANGES_REQUESTED",
         "submittedAt": "2026-05-09T10:00:00Z"
       }
@@ -102,10 +176,14 @@
     "url": "https://github.com/example/repo/pull/105",
     "isDraft": false,
     "reviewDecision": "",
-    "author": { "login": "kahlo", "name": "Frida Kahlo" },
+    "author": {
+      "login": "kahlo",
+      "name": "Frida Kahlo"
+    },
     "assignees": [],
     "labels": [],
-    "reviews": [],
+    "latestReviews": [],
+    "latestOpinionatedReviews": [],
     "updatedAt": "2026-04-01T12:00:00Z",
     "baseRefName": "main",
     "additions": 0,
@@ -117,24 +195,28 @@
     "url": "https://github.com/example/repo/pull/106",
     "isDraft": false,
     "reviewDecision": "REVIEW_REQUIRED",
-    "author": { "login": "picasso", "name": "Pablo Picasso" },
+    "author": {
+      "login": "picasso",
+      "name": "Pablo Picasso"
+    },
     "assignees": [],
     "labels": [],
-    "reviews": [
+    "latestReviews": [
       {
-        "author": { "login": "current_user" },
-        "state": "CHANGES_REQUESTED",
-        "submittedAt": "2026-05-10T12:00:00Z"
-      },
-      {
-        "author": { "login": "current_user" },
-        "state": "APPROVED",
-        "submittedAt": "2026-05-11T17:00:00Z"
-      },
-      {
-        "author": { "login": "current_user" },
+        "author": {
+          "login": "current_user"
+        },
         "state": "COMMENTED",
         "submittedAt": "2026-05-11T17:01:00Z"
+      }
+    ],
+    "latestOpinionatedReviews": [
+      {
+        "author": {
+          "login": "current_user"
+        },
+        "state": "APPROVED",
+        "submittedAt": "2026-05-11T17:00:00Z"
       }
     ],
     "updatedAt": "2026-05-11T17:01:00Z",
@@ -148,12 +230,18 @@
     "url": "https://github.com/example/repo/pull/107",
     "isDraft": false,
     "reviewDecision": "REVIEW_REQUIRED",
-    "author": { "login": "monet", "name": "Claude Monet" },
+    "author": {
+      "login": "monet",
+      "name": "Claude Monet"
+    },
     "assignees": [],
     "labels": [],
-    "reviews": [],
+    "latestReviews": [],
+    "latestOpinionatedReviews": [],
     "reviewRequests": [
-      { "__typename": "Team", "name": "team-monet", "slug": "the-met/team-monet" }
+      {
+        "slug": "the-met/team-monet"
+      }
     ],
     "updatedAt": "2026-05-11T19:00:00Z",
     "baseRefName": "main",
@@ -166,13 +254,21 @@
     "url": "https://github.com/example/repo/pull/108",
     "isDraft": false,
     "reviewDecision": "REVIEW_REQUIRED",
-    "author": { "login": "vangogh", "name": "Vincent van Gogh" },
+    "author": {
+      "login": "vangogh",
+      "name": "Vincent van Gogh"
+    },
     "assignees": [],
     "labels": [],
-    "reviews": [],
+    "latestReviews": [],
+    "latestOpinionatedReviews": [],
     "reviewRequests": [
-      { "__typename": "Team", "name": "Sculptors", "slug": "the-met/sculptors" },
-      { "__typename": "User", "login": "rodin" }
+      {
+        "slug": "the-met/sculptors"
+      },
+      {
+        "login": "rodin"
+      }
     ],
     "updatedAt": "2026-05-11T19:30:00Z",
     "baseRefName": "main",

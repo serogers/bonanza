@@ -20,11 +20,11 @@ Get productive with Github's pull request list! Github has [some handy search fi
 
 gh_handle: [Your GH Handle]
 
-# Search queries sent to Github CLI (two included by default, see FAQ)
+# GitHub search syntax, scoped to open PRs in this repo (two included by default, see FAQ)
 searches:
-  - --label critical
-  - --label general
-  - --search review:required
+  - label:critical
+  - label:general
+  - review:required
 
 search_limit: 20 # default
 
@@ -39,6 +39,25 @@ label_colors:
   critical: red
   stale: gray
 ```
+
+### Search syntax
+
+Each entry in `searches` uses [GitHub search syntax](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests), the same as the search bar on a repo's pull request list. Bonanza adds `repo:<owner/name> is:pr is:open` to each one, plus `sort:updated-desc` unless the search includes its own `sort:`.
+
+Older versions of Bonanza used `gh pr list` flags. Bonanza will stop with an error if a search starts with `--`. To convert:
+
+| `gh pr list` flag | Search syntax |
+|---|---|
+| `--label team-claw` | `label:team-claw` |
+| `--label "needs review"` | `label:"needs review"` |
+| `--label critical --label general` | `label:critical label:general` |
+| `--author octocat` | `author:octocat` |
+| `--assignee octocat` | `assignee:octocat` |
+| `--base main` | `base:main` |
+| `--draft` | `draft:true` |
+| `--search review:required` | `review:required` |
+
+Search syntax also supports filters the flags don't, such as `-label:wip`, `review-requested:@me`, `team-review-requested:org/team` and `updated:>2026-10-01`.
 
 ## Running Bonanza
 
@@ -66,12 +85,14 @@ with_config("author_colors" => { "monalisa" => :red }) do
 end
 ```
 
-To capture a fresh fixture from a real repo:
+`test/fixtures/pr_list.json` holds PRs as returned by `Bonanza::Github.search_prs` (connections flattened). `test/fixtures/search_prs.json` holds a raw GraphQL response. To capture a fresh raw response from a real repo:
 
 ```sh
 cd /path/to/repo
-PAGER=cat gh pr list --state open --limit 5 \
-  --json title,reviewDecision,reviews,number,author,assignees,isDraft,labels,updatedAt,url,baseRefName,additions,deletions \
+gh api graphql \
+  -f query="$(cd /path/to/bonanza && ruby -r ./lib/bonanza -e "print Bonanza::Github::SEARCH_QUERY")" \
+  -f search="repo:$(gh repo view --json nameWithOwner --jq .nameWithOwner) is:pr is:open" \
+  -F limit=5 \
   > /path/to/bonanza/test/fixtures/<name>.json
 ```
 

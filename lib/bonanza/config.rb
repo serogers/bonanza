@@ -43,6 +43,12 @@ module Bonanza
       if @config["gh_handle"].empty?
         raise Error, "Config: Must supply gh_handle"
       end
+
+      legacy_searches = Array(@config["searches"]).grep(/\A\s*--/)
+      if legacy_searches.any?
+        raise Error, "Config: searches use GitHub search syntax (e.g. `label:critical`, not `--label critical`). " \
+                     "See the README to convert: #{legacy_searches.join(", ")}"
+      end
     end
 
     # Friendly lookup of config keys

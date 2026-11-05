@@ -1,0 +1,40 @@
+{
+  "data": {
+    "search": {
+      "nodes": [
+        {
+          "number": 107,
+          "title": "Restore Water Lilies thumbnail caching",
+          "url": "https://github.com/example/repo/pull/107",
+          "isDraft": false,
+          "reviewDecision": "REVIEW_REQUIRED",
+          "updatedAt": "2026-05-11T19:00:00Z",
+          "baseRefName": "main",
+          "additions": 64,
+          "deletions": 9,
+          "author": { "login": "monet" },
+          "assignees": { "nodes": [{ "login": "current_user" }] },
+          "labels": { "nodes": [{ "name": "frontend", "color": "0052cc" }] },
+          "reviewRequests": {
+            "nodes": [
+              { "requestedReviewer": { "slug": "the-met/team-monet" } },
+              { "requestedReviewer": { "login": "rodin" } },
+              { "requestedReviewer": null }
+            ]
+          },
+          "latestReviews": {
+            "nodes": [
+              { "author": { "login": "current_user" }, "state": "COMMENTED", "submittedAt": "2026-05-11T17:01:00Z" }
+            ]
+          },
+          "latestOpinionatedReviews": {
+            "nodes": [
+              { "author": { "login": "current_user" }, "state": "APPROVED", "submittedAt": "2026-05-11T17:00:00Z" }
+            ]
+          }
+        },
+        {}
+      ]
+    }
+  }
+}

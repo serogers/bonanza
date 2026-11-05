@@ -48,17 +48,16 @@ class FormatterTest < Minitest::Test
   end
 
   def test_get_my_review_status_keeps_approval_when_followed_by_a_comment
-    # PR 106: CHANGES_REQUESTED, then APPROVED, then COMMENTED.
+    # PR 106: latest review is COMMENTED, latest verdict is APPROVED.
     assert_equal "APPROVED", Bonanza::Formatter.get_my_review_status(pr_fixture(106))
   end
 
-  def test_get_my_review_status_uses_most_recent_verdict
+  def test_get_my_review_status_uses_latest_verdict
     me = { "login" => "current_user" }
-    pr = pr_fixture(106).merge("reviews" => [
-      { "author" => me, "state" => "APPROVED",          "submittedAt" => "2026-05-10T12:00:00Z" },
-      { "author" => me, "state" => "CHANGES_REQUESTED", "submittedAt" => "2026-05-11T17:00:00Z" },
-      { "author" => me, "state" => "COMMENTED",         "submittedAt" => "2026-05-11T17:01:00Z" }
-    ])
+    pr = pr_fixture(106).merge(
+      "latestReviews"            => [{ "author" => me, "state" => "COMMENTED", "submittedAt" => "2026-05-11T17:01:00Z" }],
+      "latestOpinionatedReviews" => [{ "author" => me, "state" => "CHANGES_REQUESTED", "submittedAt" => "2026-05-11T17:00:00Z" }]
+    )
     assert_equal "REJECTED", Bonanza::Formatter.get_my_review_status(pr)
   end
 

@@ -20,7 +20,7 @@ module Bonanza
 
   class << self
     attr_accessor :repo_path
-    attr_writer :config, :options, :my_teams
+    attr_writer :config, :options, :my_teams, :repo_name
   end
 
   def self.logger
@@ -43,10 +43,15 @@ module Bonanza
     @my_teams ||= Github.get_my_teams
   end
 
+  def self.repo_name
+    @repo_name ||= Github.get_repo_name
+  end
+
   def self.boot(repo_path)
     self.repo_path = repo_path
     logger
     config
+    repo_name
     my_teams
   end
 
