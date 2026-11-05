@@ -7,7 +7,7 @@ module Bonanza
       { title: "Done", field: "done", computed: true, compact: true },
       { title: "Title", field: "title", compact: true },
       { title: "Review", field: "reviewDecision", compact: true },
-      { field: "latestReviews", hidden: true },
+      { field: "reviews", hidden: true },
       { field: "reviewRequests", hidden: true },
       { title: "My Review", field: "myReview", computed: true, compact: true },
       { title: "PR #", field: "number", hidden: true },

@@ -11,7 +11,7 @@
       { "name": "frontend", "color": "0052cc" },
       { "name": "review-app", "color": "6733ff" }
     ],
-    "latestReviews": [],
+    "reviews": [],
     "updatedAt": "2026-05-11T22:00:00Z",
     "baseRefName": "main"
   },
@@ -30,7 +30,7 @@
     "labels": [
       { "name": "backend", "color": "FBCA04" }
     ],
-    "latestReviews": [
+    "reviews": [
       {
         "author": { "login": "current_user" },
         "state": "COMMENTED",
@@ -54,7 +54,7 @@
       { "name": "tech-debt", "color": "CCCCCC" },
       { "name": "should-be-truncated", "color": "000000" }
     ],
-    "latestReviews": [
+    "reviews": [
       {
         "author": { "login": "davinci" },
         "state": "APPROVED",
@@ -78,7 +78,7 @@
     "author": { "login": "kandinsky", "name": "Wassily Kandinsky" },
     "assignees": [],
     "labels": [],
-    "latestReviews": [
+    "reviews": [
       {
         "author": { "login": "current_user" },
         "state": "CHANGES_REQUESTED",
@@ -97,7 +97,7 @@
     "author": { "login": "kahlo", "name": "Frida Kahlo" },
     "assignees": [],
     "labels": [],
-    "latestReviews": [],
+    "reviews": [],
     "updatedAt": "2026-04-01T12:00:00Z",
     "baseRefName": "main"
   },
@@ -110,14 +110,24 @@
     "author": { "login": "picasso", "name": "Pablo Picasso" },
     "assignees": [],
     "labels": [],
-    "latestReviews": [
+    "reviews": [
+      {
+        "author": { "login": "current_user" },
+        "state": "CHANGES_REQUESTED",
+        "submittedAt": "2026-05-10T12:00:00Z"
+      },
       {
         "author": { "login": "current_user" },
         "state": "APPROVED",
         "submittedAt": "2026-05-11T17:00:00Z"
+      },
+      {
+        "author": { "login": "current_user" },
+        "state": "COMMENTED",
+        "submittedAt": "2026-05-11T17:01:00Z"
       }
     ],
-    "updatedAt": "2026-05-11T17:00:00Z",
+    "updatedAt": "2026-05-11T17:01:00Z",
     "baseRefName": "main"
   },
   {
@@ -129,7 +139,7 @@
     "author": { "login": "monet", "name": "Claude Monet" },
     "assignees": [],
     "labels": [],
-    "latestReviews": [],
+    "reviews": [],
     "reviewRequests": [
       { "__typename": "Team", "name": "team-monet", "slug": "the-met/team-monet" }
     ],
@@ -145,7 +155,7 @@
     "author": { "login": "vangogh", "name": "Vincent van Gogh" },
     "assignees": [],
     "labels": [],
-    "latestReviews": [],
+    "reviews": [],
     "reviewRequests": [
       { "__typename": "Team", "name": "Sculptors", "slug": "the-met/sculptors" },
       { "__typename": "User", "login": "rodin" }

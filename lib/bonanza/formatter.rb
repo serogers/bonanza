@@ -15,6 +15,8 @@ module Bonanza
       "CHANGES_REQUESTED" => "REJECTED",
     }.freeze
 
+    REVIEW_VERDICT_STATES = %w[APPROVED CHANGES_REQUESTED DISMISSED].freeze
+
     STATUS_COLORS = {
       "APPROVED"  => :green,
       "REQUIRED"  => :yellow,
@@ -144,7 +146,7 @@ module Bonanza
     def self.get_my_review_status(pr)
       return "" if pr["author"]["login"] == Bonanza.config.gh_handle
 
-      status = pr["latestReviews"].to_a.find { |r| r["author"]["login"] == Bonanza.config.gh_handle }.to_h["state"]
+      status = latest_reviews(pr).dig(Bonanza.config.gh_handle, "state")
       return normalize_review_status(status) unless status.nil?
 
       my_teams_satisfied?(pr) ? "" : "REQUIRED"
@@ -159,6 +161,17 @@ module Bonanza
       end
     end
 
+    # Each reviewer's most recent verdict, falling back to their most recent
+    # review. A comment after an approval doesn't revoke it on GitHub, but
+    # GitHub's latestReviews would report it as COMMENTED, so we derive this
+    # from the full review history instead.
+    def self.latest_reviews(pr)
+      pr["reviews"].to_a.group_by { |r| r.dig("author", "login") }.transform_values do |reviews|
+        verdicts = reviews.select { |r| REVIEW_VERDICT_STATES.include?(r["state"]) }
+        (verdicts.empty? ? reviews : verdicts).max_by { |r| r["submittedAt"].to_s }
+      end
+    end
+
     def self.normalize_review_status(status)
       PR_REVIEW_STATUS_MAP[status] || status
     end
@@ -168,7 +181,7 @@ module Bonanza
     end
 
     def self.review_counts(pr)
-      completed = pr["latestReviews"].to_a.count { |r| review_done?(normalize_review_status(r["state"])) }
+      completed = latest_reviews(pr).values.count { |r| review_done?(normalize_review_status(r["state"])) }
       pending   = pr["reviewRequests"].to_a.size
       total     = completed + pending
       total.positive? ? "#{completed}/#{total}" : nil

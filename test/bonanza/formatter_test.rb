@@ -47,6 +47,21 @@ class FormatterTest < Minitest::Test
     assert_equal "APPROVED",  Bonanza::Formatter.get_my_review_status(pr_fixture(106))
   end
 
+  def test_get_my_review_status_keeps_approval_when_followed_by_a_comment
+    # PR 106: CHANGES_REQUESTED, then APPROVED, then COMMENTED.
+    assert_equal "APPROVED", Bonanza::Formatter.get_my_review_status(pr_fixture(106))
+  end
+
+  def test_get_my_review_status_uses_most_recent_verdict
+    me = { "login" => "current_user" }
+    pr = pr_fixture(106).merge("reviews" => [
+      { "author" => me, "state" => "APPROVED",          "submittedAt" => "2026-05-10T12:00:00Z" },
+      { "author" => me, "state" => "CHANGES_REQUESTED", "submittedAt" => "2026-05-11T17:00:00Z" },
+      { "author" => me, "state" => "COMMENTED",         "submittedAt" => "2026-05-11T17:01:00Z" }
+    ])
+    assert_equal "REJECTED", Bonanza::Formatter.get_my_review_status(pr)
+  end
+
   def test_get_my_review_status_ignores_reviews_from_other_users
     assert_equal "", Bonanza::Formatter.get_my_review_status(pr_fixture(103))
   end
@@ -82,7 +97,7 @@ class FormatterTest < Minitest::Test
   # --- format_review --------------------------------------------------------
 
   def test_format_review_omits_counts_when_no_completed_or_pending_reviews
-    # PR 105 has empty latestReviews and no reviewRequests.
+    # PR 105 has empty reviews and no reviewRequests.
     assert_equal "REQUIRED", Bonanza::Formatter.format_review(pr_fixture(105))
   end
 
@@ -109,6 +124,11 @@ class FormatterTest < Minitest::Test
   def test_format_review_counts_changes_requested_as_completed
     # PR 104: 1 CHANGES_REQUESTED review, no pending requests.
     assert_equal "REJECTED (1/1)", Bonanza::Formatter.format_review(pr_fixture(104))
+  end
+
+  def test_format_review_counts_approval_followed_by_a_comment_once
+    # PR 106: one reviewer with CHANGES_REQUESTED, APPROVED, COMMENTED.
+    assert_equal "REQUIRED (1/1)", Bonanza::Formatter.format_review(pr_fixture(106))
   end
 
   def test_format_review_does_not_count_commented_reviews_as_completed

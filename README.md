@@ -71,7 +71,7 @@ To capture a fresh fixture from a real repo:
 ```sh
 cd /path/to/repo
 PAGER=cat gh pr list --state open --limit 5 \
-  --json title,reviewDecision,latestReviews,number,author,assignees,isDraft,labels,updatedAt,url \
+  --json title,reviewDecision,reviews,number,author,assignees,isDraft,labels,updatedAt,url \
   > /path/to/bonanza/test/fixtures/<name>.json
 ```
 
