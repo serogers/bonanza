@@ -40,6 +40,12 @@ module Bonanza
       }
     GRAPHQL
 
+    REPO_REMOTES = %w[upstream origin].freeze
+
+    # Matches git@github.com:owner/repo.git, https://github.com/owner/repo(.git),
+    # and ssh://git@github.com/owner/repo.git
+    GITHUB_REMOTE_PATTERN = %r{github\.com[:/](?<name>[^/]+/[^/]+?)(?:\.git)?/?\z}
+
     def self.get_my_teams
       Bonanza.log_verbose("Fetching user teams")
       teams = JSON.parse(execute("gh", "api", "/user/teams", "--paginate", "--cache", "24h"))
@@ -49,9 +55,19 @@ module Bonanza
       Set.new
     end
 
+    # Resolved locally from git remotes (no network call). In a fork, upstream
+    # is the repo PRs are opened against, so it takes precedence over origin.
     def self.get_repo_name
-      Bonanza.log_verbose("Fetching repo name")
-      execute("gh", "repo", "view", "--json", "nameWithOwner", "--jq", ".nameWithOwner", chdir: Bonanza.repo_path.to_s).strip
+      Bonanza.log_verbose("Resolving repo name from git remotes")
+      REPO_REMOTES.each do |remote|
+        url = execute("git", "remote", "get-url", remote, chdir: Bonanza.repo_path.to_s).strip
+        match = url.match(GITHUB_REMOTE_PATTERN)
+        return match[:name] if match
+      rescue Bonanza::Error
+        next
+      end
+
+      raise Bonanza::Error, "No GitHub remote found (checked: #{REPO_REMOTES.join(", ")}) in #{Bonanza.repo_path}"
     end
 
     def self.search_prs(search, limit:)

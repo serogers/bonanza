@@ -5,11 +5,12 @@ require_relative "../test_helper"
 class GithubTest < Minitest::Test
 
   # Replaces Bonanza::Github.execute so tests never invoke the real CLI.
-  def stub_exec(output)
+  # Pass a responder lambda instead of output to answer per command.
+  def stub_exec(output = nil, responder: nil)
     captured = []
     Bonanza::Github.define_singleton_method(:execute) do |*args, **kwargs|
       captured << { args: args, kwargs: kwargs }
-      output
+      responder ? responder.call(args) : output
     end
     yield captured
   ensure
@@ -66,17 +67,71 @@ class GithubTest < Minitest::Test
 
   # --- get_repo_name --------------------------------------------------------
 
-  def test_get_repo_name_invokes_gh_repo_view_in_repo
+  # Answers `git remote get-url <remote>` from a hash; missing remotes fail
+  # the way git does.
+  def remotes_responder(remotes)
+    ->(args) { remotes.fetch(args.last) { raise Bonanza::Error, "error: No such remote" } }
+  end
+
+  def test_get_repo_name_reads_git_remote_in_repo
     Bonanza.repo_path = "/tmp/some-repo"
-    stub_exec("example/repo\n") do |captured|
+    stub_exec("git@github.com:example/repo.git\n") do |captured|
       assert_equal "example/repo", Bonanza::Github.get_repo_name
       assert_equal [{
-        args: ["gh", "repo", "view", "--json", "nameWithOwner", "--jq", ".nameWithOwner"],
+        args: ["git", "remote", "get-url", "upstream"],
         kwargs: { chdir: "/tmp/some-repo" },
       }], captured
     end
   ensure
     Bonanza.repo_path = nil
+  end
+
+  def test_get_repo_name_parses_github_remote_formats
+    %w[
+      git@github.com:example/repo.git
+      git@github.com:example/repo
+      https://github.com/example/repo.git
+      https://github.com/example/repo
+      https://github.com/example/repo/
+      ssh://git@github.com/example/repo.git
+    ].each do |url|
+      stub_exec(url) do
+        assert_equal "example/repo", Bonanza::Github.get_repo_name, "failed to parse #{url}"
+      end
+    end
+  end
+
+  def test_get_repo_name_keeps_dots_in_repo_name
+    stub_exec("git@github.com:example/repo.github.io.git") do
+      assert_equal "example/repo.github.io", Bonanza::Github.get_repo_name
+    end
+  end
+
+  def test_get_repo_name_prefers_upstream_over_origin
+    remotes = { "upstream" => "git@github.com:example/repo.git", "origin" => "git@github.com:me/repo.git" }
+    stub_exec(responder: remotes_responder(remotes)) do
+      assert_equal "example/repo", Bonanza::Github.get_repo_name
+    end
+  end
+
+  def test_get_repo_name_falls_back_to_origin_when_upstream_is_missing
+    stub_exec(responder: remotes_responder("origin" => "git@github.com:me/repo.git")) do
+      assert_equal "me/repo", Bonanza::Github.get_repo_name
+    end
+  end
+
+  def test_get_repo_name_skips_non_github_remotes
+    remotes = { "upstream" => "git@gitlab.com:example/repo.git", "origin" => "git@github.com:me/repo.git" }
+    stub_exec(responder: remotes_responder(remotes)) do
+      assert_equal "me/repo", Bonanza::Github.get_repo_name
+    end
+  end
+
+  def test_get_repo_name_raises_when_no_github_remote
+    stub_exec(responder: remotes_responder({})) do
+      error = assert_raises(Bonanza::Error) { Bonanza::Github.get_repo_name }
+      assert_match(/No GitHub remote found/, error.message)
+    end
   end
 
   # --- build_search ---------------------------------------------------------
