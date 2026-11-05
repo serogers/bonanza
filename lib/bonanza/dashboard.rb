@@ -6,6 +6,8 @@ module Bonanza
     COLUMNS = [
       { title: "Done", field: "done", computed: true, compact: true },
       { title: "Title", field: "title", compact: true },
+      { title: "Changes", field: "additions", compact: true },
+      { field: "deletions", hidden: true },
       { title: "Review", field: "reviewDecision", compact: true },
       { field: "reviews", hidden: true },
       { field: "reviewRequests", hidden: true },

@@ -13,7 +13,9 @@
     ],
     "reviews": [],
     "updatedAt": "2026-05-11T22:00:00Z",
-    "baseRefName": "main"
+    "baseRefName": "main",
+    "additions": 12,
+    "deletions": 3
   },
   {
     "number": 102,
@@ -38,7 +40,9 @@
       }
     ],
     "updatedAt": "2026-05-11T20:00:00Z",
-    "baseRefName": "main"
+    "baseRefName": "main",
+    "additions": 48,
+    "deletions": 20
   },
   {
     "number": 103,
@@ -67,7 +71,9 @@
       }
     ],
     "updatedAt": "2026-05-10T16:00:00Z",
-    "baseRefName": "main"
+    "baseRefName": "main",
+    "additions": 310,
+    "deletions": 145
   },
   {
     "number": 104,
@@ -86,7 +92,9 @@
       }
     ],
     "updatedAt": "2026-05-09T10:00:00Z",
-    "baseRefName": "release/2026-05"
+    "baseRefName": "release/2026-05",
+    "additions": 5,
+    "deletions": 0
   },
   {
     "number": 105,
@@ -99,7 +107,9 @@
     "labels": [],
     "reviews": [],
     "updatedAt": "2026-04-01T12:00:00Z",
-    "baseRefName": "main"
+    "baseRefName": "main",
+    "additions": 0,
+    "deletions": 27
   },
   {
     "number": 106,
@@ -128,7 +138,9 @@
       }
     ],
     "updatedAt": "2026-05-11T17:01:00Z",
-    "baseRefName": "main"
+    "baseRefName": "main",
+    "additions": 1,
+    "deletions": 1
   },
   {
     "number": 107,
@@ -144,7 +156,9 @@
       { "__typename": "Team", "name": "team-monet", "slug": "the-met/team-monet" }
     ],
     "updatedAt": "2026-05-11T19:00:00Z",
-    "baseRefName": "main"
+    "baseRefName": "main",
+    "additions": 64,
+    "deletions": 9
   },
   {
     "number": 108,
@@ -161,6 +175,8 @@
       { "__typename": "User", "login": "rodin" }
     ],
     "updatedAt": "2026-05-11T19:30:00Z",
-    "baseRefName": "main"
+    "baseRefName": "main",
+    "additions": 220,
+    "deletions": 18
   }
 ]

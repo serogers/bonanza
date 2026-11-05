@@ -27,6 +27,9 @@ module Bonanza
     # Branches we consider the "normal" target; anything else is highlighted.
     DEFAULT_BRANCHES = %w[main master].freeze
 
+    # Sign plus three digits, so deletions align for changes under 1,000 lines.
+    CHANGES_WIDTH = 4
+
     # --- format methods -------------------------------------------------------
 
     def self.format(pr)
@@ -40,6 +43,7 @@ module Bonanza
       pr["assignees"]      = format_assignees(pr)
       pr["labels"]         = format_labels(pr)
       pr["baseRefName"]    = format_target(pr)
+      pr["additions"]      = format_changes(pr)
       pr["isDraft"]        = format_draft(pr)
       pr["updatedAt"]      = format_updated_at(pr)
       pr
@@ -109,6 +113,13 @@ module Bonanza
     def self.format_target(pr)
       branch = pr["baseRefName"].to_s
       DEFAULT_BRANCHES.include?(branch) ? branch : colorize(branch, color: :yellow)
+    end
+
+    def self.format_changes(pr)
+      # Pad before colorizing so deletions line up across rows (ANSI codes would skew the width)
+      additions = colorize("+#{pr['additions'].to_i}".ljust(CHANGES_WIDTH), color: :green)
+      deletions = colorize("-#{pr['deletions'].to_i}", color: :red)
+      "#{additions} #{deletions}"
     end
 
     def self.format_draft(pr)

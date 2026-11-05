@@ -246,6 +246,36 @@ class FormatterTest < Minitest::Test
     assert_equal "", Bonanza::Formatter.format_target({})
   end
 
+  # --- format_changes -------------------------------------------------------
+
+  def test_format_changes_shows_additions_and_deletions
+    assert_equal "+310 -145", Bonanza::Formatter.format_changes(pr_fixture(103))
+  end
+
+  def test_format_changes_colorizes_additions_and_deletions
+    with_config(colorize: true) do
+      formatted = Bonanza::Formatter.format_changes(pr_fixture(103))
+      refute_equal "+310 -145", formatted, "expected changes to be colorized"
+      assert_includes formatted, "+310"
+      assert_includes formatted, "-145"
+    end
+  end
+
+  def test_format_changes_pads_additions_so_deletions_align
+    assert_equal "+12  -3", Bonanza::Formatter.format_changes(pr_fixture(101))
+    assert_equal "+5   -0", Bonanza::Formatter.format_changes(pr_fixture(104))
+  end
+
+  def test_format_changes_pads_additions_before_colorizing
+    with_config(colorize: true) do
+      assert_includes Bonanza::Formatter.format_changes(pr_fixture(101)), "+12 "
+    end
+  end
+
+  def test_format_changes_handles_missing_counts
+    assert_equal "+0   -0", Bonanza::Formatter.format_changes({})
+  end
+
   # --- format_draft ---------------------------------------------------------
 
   def test_format_draft_distinguishes_draft_from_open
@@ -269,7 +299,7 @@ class FormatterTest < Minitest::Test
 
     # Adds computed columns
     assert_equal 0, formatted["priority"]
-    %w[done myReview reviewDecision title author assignees labels baseRefName isDraft updatedAt].each do |key|
+    %w[done myReview reviewDecision title author assignees labels baseRefName additions isDraft updatedAt].each do |key|
       assert formatted.key?(key), "expected formatted PR to have #{key}"
     end
 
